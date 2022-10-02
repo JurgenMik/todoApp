@@ -8,6 +8,11 @@ function Todo({toDoList, setList, setCount, itemCount} : any) {
         setCount(itemCount -1);
     }
 
+    const handleDelete = (e : React.MouseEvent<HTMLSpanElement>, details : any) => {
+        setList(toDoList.filter((todo : any) => todo.activity !== details.activity));
+        setCount(itemCount -1);
+    }
+
     return(
         <div className="w-full text-white sm:text-xl text-lg">
             {toDoList.map((details : any, index: number) => {
@@ -23,6 +28,11 @@ function Todo({toDoList, setList, setCount, itemCount} : any) {
                        </div>
                        <div className={`w-4/5 ${details.completed ? "text-gray-500 line-through" : null}`}>
                            {details.activity}
+                           <span
+                               onClick={e => handleDelete(e, details)}
+                               className="float-right sm:mr-0 mr-8 text-gray-500">
+                               X
+                           </span>
                        </div>
                    </div>
                 )

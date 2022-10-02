@@ -31,8 +31,6 @@ function App() {
         setList(toDoList.filter((todo : any) => (!todo.completed)));
     }
 
-    console.log(toDoList)
-
   return (
     <div className="w-full h-screen bg-slate-800">
         <div className="w-full h-1/3 bg-background bg-no-repeat bg-cover">
@@ -60,7 +58,7 @@ function App() {
                     <Todo toDoList={toDoList} setList={setList} setCount={setCount} itemCount={itemCount} />
                     {toDoList.length <= 0 ? null :
                         <div className="w-full h-16 flex items-center justify-center sm:space-x-24 space-x-6 text-gray-500 font-bold">
-                            <h1 className="hover:text-blue-500">
+                            <h1>
                                 {itemCount} items left
                             </h1>
                             <div className="flex space-x-4">
