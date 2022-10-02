@@ -6,19 +6,21 @@ function App() {
 
     interface Todo {
         activity: string,
+        completed: boolean,
     }
 
     const [todoList , setList] = useState<Todo[]>([]);
-    const [todo, setToDO ] = useState<Todo>({
+    const [toDo, setToDo ] = useState<Todo>({
         activity: '',
+        completed: false,
     });
 
     const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        setToDO({...todo, activity : e.target.value});
+        setToDo({...toDo, activity : e.target.value});
     }
 
     const handleClick = () => {
-        setList(todoList.concat(todo))
+        setList(todoList.concat(toDo))
         const input = document.getElementById('describeTodo') as HTMLInputElement;
         input.value = '';
     }
@@ -47,16 +49,22 @@ function App() {
                     />
                 </div>
                 <div className="sm:w-1/3 w-4/5 h-auto bg-slate-700 absolute top-30 mt-16 rounded-md">
-                    <Todo toDoList={todoList}/>
+                    <Todo toDoList={todoList} todo={toDo} setToDo={setToDo} setList={setList}/>
                     {todoList.length <= 0 ? null :
-                        <div className="w-full h-16 flex items-center justify-center sm:space-x-24 space-x-2 text-gray-500 font-bold">
+                        <div className="w-full h-16 flex items-center justify-center sm:space-x-24 space-x-6 text-gray-500 font-bold">
                             <h1 className="hover:text-blue-500">
-                                items left
+                                {todoList.length} items left
                             </h1>
-                            <div className="flex space-x-4 hover:text-blue-500">
-                                <h1>All</h1>
-                                <h1>Active</h1>
-                                <h1>Completed</h1>
+                            <div className="flex space-x-4">
+                                <h1 className="hover:text-blue-500">
+                                    All
+                                </h1>
+                                <h1 className="hover:text-blue-500">
+                                    Active
+                                </h1>
+                                <h1 className="hover:text-blue-500">
+                                    Completed
+                                </h1>
                             </div>
                             <h1 className="hover:text-blue-500">
                                 Clear Completed
