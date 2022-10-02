@@ -1,10 +1,11 @@
 import React from 'react';
 
-function Todo({toDoList, setList} : any) {
+function Todo({toDoList, setList, setCount, itemCount} : any) {
 
     const handleClick = (e : React.MouseEvent<HTMLSpanElement>, details : any) => {
         e.preventDefault();
-        setList(toDoList.filter((todo : any) => todo.activity !== details.activity).concat({...details, completed : true}))
+        setList(toDoList.filter((todo : any) => todo.activity !== details.activity).concat({...details, completed : true}));
+        setCount(itemCount -1);
     }
 
     return(

@@ -9,7 +9,8 @@ function App() {
         completed: boolean,
     }
 
-    const [todoList , setList] = useState<Todo[]>([]);
+    const [toDoList, setList] = useState<Todo[]>([]);
+    const [itemCount, setCount] = useState(0);
     const [toDo, setToDo ] = useState<Todo>({
         activity: '',
         completed: false,
@@ -20,7 +21,8 @@ function App() {
     }
 
     const handleClick = () => {
-        setList(todoList.concat(toDo))
+        setList(toDoList.concat(toDo));
+        setCount(itemCount + 1);
         const input = document.getElementById('describeTodo') as HTMLInputElement;
         input.value = '';
     }
@@ -49,11 +51,11 @@ function App() {
                     />
                 </div>
                 <div className="sm:w-1/3 w-4/5 h-auto bg-slate-700 absolute top-30 mt-16 rounded-md">
-                    <Todo toDoList={todoList} todo={toDo} setToDo={setToDo} setList={setList}/>
-                    {todoList.length <= 0 ? null :
+                    <Todo toDoList={toDoList} setList={setList} setCount={setCount} itemCount={itemCount} />
+                    {toDoList.length <= 0 ? null :
                         <div className="w-full h-16 flex items-center justify-center sm:space-x-24 space-x-6 text-gray-500 font-bold">
                             <h1 className="hover:text-blue-500">
-                                {todoList.length} items left
+                                {itemCount} items left
                             </h1>
                             <div className="flex space-x-4">
                                 <h1 className="hover:text-blue-500">
