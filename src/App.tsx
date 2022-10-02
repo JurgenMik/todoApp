@@ -27,6 +27,12 @@ function App() {
         input.value = '';
     }
 
+    const handleClear = () => {
+        setList(toDoList.filter((todo : any) => (!todo.completed)));
+    }
+
+    console.log(toDoList)
+
   return (
     <div className="w-full h-screen bg-slate-800">
         <div className="w-full h-1/3 bg-background bg-no-repeat bg-cover">
@@ -68,7 +74,7 @@ function App() {
                                     Completed
                                 </h1>
                             </div>
-                            <h1 className="hover:text-blue-500">
+                            <h1 onClick={handleClear} className="hover:text-blue-500">
                                 Clear Completed
                             </h1>
                         </div>
