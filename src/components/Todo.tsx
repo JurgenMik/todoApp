@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Todo({toDoList, setList, setCount, itemCount, filteredList} : any) {
+function Todo({toDoList, setList, setCount, itemCount, filteredList, theme} : any) {
 
     const handleClick = (e : React.MouseEvent<HTMLSpanElement>, details : any) => {
         e.preventDefault();
@@ -16,7 +16,7 @@ function Todo({toDoList, setList, setCount, itemCount, filteredList} : any) {
     }
 
     return(
-        <div className="w-full text-white sm:text-xl text-lg">
+        <div className={`w-full ${theme === 'Dark' ? "text-white" : "text-black"} sm:text-xl text-lg`}>
             {filteredList.map((details : any, index: number) => {
                 return(
                    <div className="w-full h-24 ml-auto float-right flex items-center sm:space-x-0 space-x-4 border-b border-gray-600" key={index}>

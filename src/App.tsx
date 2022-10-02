@@ -1,5 +1,6 @@
 import React, {useState, useMemo} from 'react';
 import {BsFillSunFill} from 'react-icons/bs';
+import {RiMoonFill} from "react-icons/ri";
 import Todo from './components/Todo';
 
 function App() {
@@ -10,7 +11,8 @@ function App() {
     }
 
     const [toDoList, setList] = useState<Todo[]>([]);
-    const [itemCount, setCount] = useState(0);
+    const [theme, setTheme] = useState<string>('Dark')
+    const [itemCount, setCount] = useState<number>(0);
     const [filterState, setFilterState] = useState({
         all: false,
         active: false,
@@ -70,33 +72,42 @@ function App() {
         return toDoList;
     }
 
-    const filteredList = useMemo(handleFilters, [toDoList, filterState])
+    const filteredList = useMemo(handleFilters, [toDoList, filterState]);
+
+    const LightTheme = () => {
+        setTheme('Light');
+    }
+
+    const DarkTheme = () => {
+        setTheme('Dark');
+    }
 
   return (
-    <div className="w-full h-screen bg-slate-800">
+    <div className={`w-full h-screen ${theme === 'Dark' ? "bg-slate-800" : "bg-white"}`}>
         <div className="w-full h-1/3 bg-background bg-no-repeat bg-cover">
             <div className="sm:w-1/3 w-4/5 h-full ml-auto mr-auto">
                 <div className="w-full h-1/2 flex flex-row items-center">
                     <h1 className="text-5xl text-white tracking-widest font-bold">
                         TODO
                     </h1>
-                    <BsFillSunFill className="ml-auto float-right text-white text-3xl" />
+                    {theme === 'Dark'? <BsFillSunFill onClick={LightTheme} className="ml-auto float-right text-white text-3xl" /> :
+                        <RiMoonFill onClick={DarkTheme} className="ml-auto float-right text-white text-3xl" />}
                 </div>
-                <div className="w-full h-1/5 bg-slate-700 rounded-md flex items-center -mt-8">
+                <div className={`w-full h-1/5 rounded-md flex items-center -mt-8 ${theme === 'Dark' ? "bg-slate-700" : "bg-white"} `}>
                     <div className="sm:w-1/6 w-1/5 flex justify-center">
                         <span onClick={handleClick} className="w-8 rounded-full ring-2 ring-gray-500 p-5 sm:ml-0 ml-2 hover:bg-gradient-to-r from-blue-400 to-blue-700 hover:ring-0">
                         </span>
                     </div>
                     <input
-                        className="w-5/6 p-4 ml-auto float-right sm:mr-4 mr-2 bg-slate-700 text-xl text-gray-400"
+                        className={`w-5/6 p-4 ml-auto float-right sm:mr-4 mr-2 ${theme === 'Dark' ? "bg-slate-700" : "bg-white"} text-xl text-gray-400`}
                         name="todo"
                         id="describeTodo"
                         onChange={handleChange}
                         placeholder="Create a new todo..."
                     />
                 </div>
-                <div className="sm:w-1/3 w-4/5 h-auto bg-slate-700 absolute top-30 mt-16 rounded-md">
-                    <Todo toDoList={toDoList} setList={setList} filteredList={filteredList} setCount={setCount} itemCount={itemCount} />
+                <div className={`sm:w-1/3 w-4/5 h-auto ${theme === 'Dark' ? "bg-slate-700" : "bg-white shadow-2xl"} absolute top-30 mt-16 rounded-md`}>
+                    <Todo toDoList={toDoList} setList={setList} filteredList={filteredList} setCount={setCount} itemCount={itemCount} theme={theme} />
                     {toDoList.length <= 0 ? null :
                         <div className="w-full h-16 flex items-center justify-center sm:space-x-24 space-x-6 text-gray-500 font-bold">
                             <h1>
