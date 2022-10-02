@@ -549,6 +549,14 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
 .float-right {
   float: right;
 }
@@ -577,6 +585,14 @@ video {
   margin-left: 0.5rem;
 }
 
+.mt-16 {
+  margin-top: 4rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
 .flex {
   display: flex;
 }
@@ -599,6 +615,18 @@ video {
 
 .h-1\/5 {
   height: 20%;
+}
+
+.h-4\/5 {
+  height: 80%;
+}
+
+.h-44 {
+  height: 11rem;
+}
+
+.h-auto {
+  height: auto;
 }
 
 .w-full {
