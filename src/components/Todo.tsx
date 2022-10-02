@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Todo({toDoList, setList, setCount, itemCount} : any) {
+function Todo({toDoList, setList, setCount, itemCount, filteredList} : any) {
 
     const handleClick = (e : React.MouseEvent<HTMLSpanElement>, details : any) => {
         e.preventDefault();
@@ -10,12 +10,14 @@ function Todo({toDoList, setList, setCount, itemCount} : any) {
 
     const handleDelete = (e : React.MouseEvent<HTMLSpanElement>, details : any) => {
         setList(toDoList.filter((todo : any) => todo.activity !== details.activity));
-        setCount(itemCount -1);
+        if (!details.completed) {
+            setCount(itemCount -1);
+        }
     }
 
     return(
         <div className="w-full text-white sm:text-xl text-lg">
-            {toDoList.map((details : any, index: number) => {
+            {filteredList.map((details : any, index: number) => {
                 return(
                    <div className="w-full h-24 ml-auto float-right flex items-center sm:space-x-0 space-x-4 border-b border-gray-600" key={index}>
                        <div className="sm:w-1/6 w-1/5 flex items-center justify-center">

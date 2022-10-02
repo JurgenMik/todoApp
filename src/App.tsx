@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import {BsFillSunFill} from 'react-icons/bs';
 import Todo from './components/Todo';
 
@@ -11,6 +11,11 @@ function App() {
 
     const [toDoList, setList] = useState<Todo[]>([]);
     const [itemCount, setCount] = useState(0);
+    const [filterState, setFilterState] = useState({
+        all: false,
+        active: false,
+        completed: false,
+    })
     const [toDo, setToDo ] = useState<Todo>({
         activity: '',
         completed: false,
@@ -30,6 +35,42 @@ function App() {
     const handleClear = () => {
         setList(toDoList.filter((todo : any) => (!todo.completed)));
     }
+
+    const filterAll = () => {
+        setFilterState({
+            all: true,
+            active: false,
+            completed: false,
+        })
+    }
+
+    const filterActive = () => {
+        setFilterState({
+            all: false,
+            active: true,
+            completed: false,
+        })
+    }
+
+    const filterCompleted = () => {
+        setFilterState({
+            all: false,
+            active: false,
+            completed: true,
+        })
+    }
+
+    const handleFilters = () => {
+        if (filterState.active) {
+            return toDoList.filter(todo => !todo.completed);
+        }
+        if (filterState.completed) {
+            return toDoList.filter(todo => todo.completed);
+        }
+        return toDoList;
+    }
+
+    const filteredList = useMemo(handleFilters, [toDoList, filterState])
 
   return (
     <div className="w-full h-screen bg-slate-800">
@@ -55,20 +96,20 @@ function App() {
                     />
                 </div>
                 <div className="sm:w-1/3 w-4/5 h-auto bg-slate-700 absolute top-30 mt-16 rounded-md">
-                    <Todo toDoList={toDoList} setList={setList} setCount={setCount} itemCount={itemCount} />
+                    <Todo toDoList={toDoList} setList={setList} filteredList={filteredList} setCount={setCount} itemCount={itemCount} />
                     {toDoList.length <= 0 ? null :
                         <div className="w-full h-16 flex items-center justify-center sm:space-x-24 space-x-6 text-gray-500 font-bold">
                             <h1>
                                 {itemCount} items left
                             </h1>
                             <div className="flex space-x-4">
-                                <h1 className="hover:text-blue-500">
+                                <h1 onClick={filterAll} className="hover:text-blue-500">
                                     All
                                 </h1>
-                                <h1 className="hover:text-blue-500">
+                                <h1 onClick={filterActive} className="hover:text-blue-500">
                                     Active
                                 </h1>
-                                <h1 className="hover:text-blue-500">
+                                <h1 onClick={filterCompleted} className="hover:text-blue-500">
                                     Completed
                                 </h1>
                             </div>
