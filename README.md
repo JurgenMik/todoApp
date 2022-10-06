@@ -1,4 +1,4 @@
-Todo App [Frontend challenge](https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW)
+Todo App (FrontendMentor Challenge) [Node (express) Server](https://github.com/JurgenMik/todoApp_server)
 ## Table of Contents
 * <strong>Overview</strong>
     * <strong>Functionality</strong>
@@ -20,5 +20,6 @@ Todo App [Frontend challenge](https://www.frontendmentor.io/challenges/todo-app-
 ### Built With
 * <strong>React</strong>
 * <strong>TypeScript</strong>
+* <strong>Node js & mongoDB</strong>
 * <strong>TailwindCSS - CSS framework</strong>
 

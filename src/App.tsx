@@ -1,7 +1,8 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {BsFillSunFill} from 'react-icons/bs';
 import {RiMoonFill} from "react-icons/ri";
 import Todo from './components/Todo';
+import axios from "axios";
 
 function App() {
 
@@ -23,12 +24,32 @@ function App() {
         completed: false,
     });
 
+    useEffect(() => {
+        handleGET();
+    }, [])
+
+    const handleGET = () => {
+        axios.get("http://localhost:3002")
+            .then(response => {
+                setList(response.data.todos);
+                setCount(response.data.todos.length - response.data.todos.filter((todo : any) => todo.completed).length);
+            })
+    }
+
     const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         setToDo({...toDo, activity : e.target.value});
     }
 
-    const handleClick = () => {
-        setList(toDoList.concat(toDo));
+    const handlePOST = (e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        axios.post("http://localhost:3002/todo",
+            {
+                    activity: toDo.activity,
+                    completed: toDo.completed
+                 }
+            ).then(response => {
+            setList(toDoList.concat(response.data.todo));
+        })
         setCount(itemCount + 1);
         const input = document.getElementById('describeTodo') as HTMLInputElement;
         input.value = '';
@@ -95,8 +116,10 @@ function App() {
                 </div>
                 <div className={`w-full h-1/5 rounded-md flex items-center -mt-8 ${theme === 'Dark' ? "bg-slate-700" : "bg-white"} `}>
                     <div className="sm:w-1/6 w-1/5 flex justify-center">
-                        <span onClick={handleClick} className="w-8 rounded-full ring-2 ring-gray-500 p-5 sm:ml-0 ml-2 hover:bg-gradient-to-r from-blue-400 to-blue-700 hover:ring-0">
-                        </span>
+                        <form onSubmit={handlePOST}>
+                          <button type='submit' className="w-8 rounded-full ring-2 ring-gray-500 p-5 sm:ml-0 ml-2 hover:bg-gradient-to-r from-blue-400 to-blue-700 hover:ring-0">
+                          </button>
+                        </form>
                     </div>
                     <input
                         className={`w-5/6 p-4 ml-auto float-right sm:mr-4 mr-2 ${theme === 'Dark' ? "bg-slate-700" : "bg-white"} text-xl text-gray-400`}
