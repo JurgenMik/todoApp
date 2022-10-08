@@ -1,4 +1,5 @@
 import React from 'react';
+import {DragDropContext, Droppable,Draggable} from '@hello-pangea/dnd';
 import axios from 'axios';
 
 function Todo({toDoList, setList, setCount, itemCount, filteredList, theme} : any) {
@@ -25,33 +26,53 @@ function Todo({toDoList, setList, setCount, itemCount, filteredList, theme} : an
         }
     }
 
+    const handleOnDragEnd = (result : any) => {
+        if (!result.destination) return;
+        const items = Array.from(filteredList);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+
+        setList(items);
+    }
+
     return(
-        <div className={`w-full ${theme === 'Dark' ? "text-white" : "text-black"} sm:text-xl text-lg`}>
-            {filteredList.map((details : any, index: number) => {
-                return(
-                   <div className="w-full h-24 ml-auto float-right flex items-center sm:space-x-0 space-x-4 border-b border-gray-600" key={index}>
-                       <div className="sm:w-1/6 w-1/5 flex items-center justify-center">
-                           <form onSubmit={e => handlePUT(e, details)}>
-                               <button
-                                   type='submit'
-                                   className={`w-8 rounded-full ring-2 ring-gray-500 p-5 sm:ml-0 ml-2 hover:bg-gradient-to-r from-blue-400 to-blue-700 hover:ring-0 ${details.completed ?
-                                       "bg-gradient-to-r from-blue-400 to-blue-700 ring-0" :
-                                       null}`}>
-                               </button>
-                           </form>
-                       </div>
-                       <div className={`w-4/5 ${details.completed ? "text-gray-500 line-through" : null}`}>
-                           {details.activity}
-                           <span
-                               onClick={e => handleDelete(e, details)}
-                               className="float-right sm:mr-0 mr-8 text-gray-500">
-                               X
-                           </span>
-                       </div>
-                   </div>
-                )
-            })}
-        </div>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="todoItems">
+                {(provided) => (
+                <div className={`w-full ${theme === 'Dark' ? "text-white" : "text-black"} sm:text-xl text-lg`} {...provided.droppableProps} ref={provided.innerRef}>
+                    {filteredList.map((details : any, index: number) => {
+                        return (
+                           <Draggable draggableId={details.activity} index={index} key={index}>
+                               {(provided) => (
+                               <div className="w-full h-24 ml-auto float-right flex items-center sm:space-x-0 space-x-4 border-b border-gray-600" {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                                   <div className="sm:w-1/6 w-1/5 flex items-center justify-center">
+                                       <form onSubmit={e => handlePUT(e, details)}>
+                                           <button
+                                               type='submit'
+                                               className={`w-8 rounded-full ring-2 ring-gray-500 p-5 sm:ml-0 ml-2 hover:bg-gradient-to-r from-blue-400 to-blue-700 hover:ring-0 ${details.completed ?
+                                                   "bg-gradient-to-r from-blue-400 to-blue-700 ring-0" :
+                                                   null}`}>
+                                           </button>
+                                       </form>
+                                   </div>
+                                   <div className={`w-4/5 ${details.completed ? "text-gray-500 line-through" : null}`}>
+                                       {details.activity}
+                                       <span
+                                           onClick={e => handleDelete(e, details)}
+                                           className="float-right sm:mr-0 mr-8 text-gray-500">
+                                           X
+                                       </span>
+                                   </div>
+                               </div>
+                               )}
+                           </Draggable>
+                        )
+                    })}
+                    {provided.placeholder}
+                </div>
+                    )}
+            </Droppable>
+        </DragDropContext>
     );
 }
 
