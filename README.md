@@ -11,6 +11,7 @@ Todo App (FrontendMentor Challenge) [Node (express) Server](https://github.com/J
 * <strong>Filter</strong> by all/active/complete todos
 * Toggle light & dark mode
 * <strong>Drag & Drop</strong> todos
+* <strong>Clear</strong> completed todos
 ### Screenshots
 ![image](https://user-images.githubusercontent.com/89903354/193468791-b9d79dae-9569-4ae9-b958-4a92d0db36b3.png)
 ![image](https://user-images.githubusercontent.com/89903354/193468812-f5ac7726-2632-443c-a777-af1305aecf87.png)

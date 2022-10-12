@@ -12,7 +12,7 @@ function App() {
     }
 
     const [toDoList, setList] = useState<Todo[]>([]);
-    const [theme, setTheme] = useState<string>('Dark')
+    const [theme, setTheme] = useState<string>('Dark');
     const [itemCount, setCount] = useState<number>(0);
     const [filterState, setFilterState] = useState({
         all: false,
@@ -55,8 +55,16 @@ function App() {
         input.value = '';
     }
 
-    const handleClear = () => {
-        setList(toDoList.filter((todo : any) => (!todo.completed)));
+    const handleClear = (e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const deleteMany = toDoList.filter((todo : any) => (todo.completed));
+        axios.post("http://localhost:3002/todo/delete/completed",
+            {
+                    deleteMany
+                 }
+            ).then(response => {
+                 setList(toDoList.filter((todo : any) => (!todo.completed)));
+            })
     }
 
     const filterAll = () => {
@@ -147,9 +155,11 @@ function App() {
                                     Completed
                                 </h1>
                             </div>
-                            <h1 onClick={handleClear} className="hover:text-blue-500">
-                                Clear Completed
-                            </h1>
+                            <form onSubmit={handleClear}>
+                                <button type='submit' className="hover:text-blue-500">
+                                    Clear Completed
+                                </button>
+                            </form>
                         </div>
                     }
                 </div>
