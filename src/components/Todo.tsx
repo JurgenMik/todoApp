@@ -10,17 +10,19 @@ function Todo({toDoList, setList, setCount, itemCount, filteredList, theme} : an
         {
                 completed: true,
             }).then(response => {
-            setList(toDoList.filter((todo : any) => todo.activity !== details.activity).concat(response.data.editedTodo));
+            setList(toDoList.filter((todo : any) => todo.activity !== details.activity).concat(response.data.todo));
         })
+        if (!details.completed) {
+            setCount(itemCount -1);
+        }
     }
 
     const handleDelete = (e : React.MouseEvent<HTMLSpanElement>, details : any) => {
         e.preventDefault();
         axios.delete(`http://localhost:3002/todo/${details._id}`)
             .then(response => {
-               console.log(response);
+                setList(toDoList.filter((todo : any) => todo.activity !== response.data.todo.activity));
             })
-        setList(toDoList.filter((todo : any) => todo.activity !== details.activity));
         if (!details.completed) {
             setCount(itemCount -1);
         }

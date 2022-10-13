@@ -32,7 +32,8 @@ function App() {
         axios.get("http://localhost:3002")
             .then(response => {
                 setList(response.data.todos);
-                setCount(response.data.todos.length - response.data.todos.filter((todo : any) => todo.completed).length);
+                setCount(response.data.todos.length - response.data.todos.filter((todo : any) =>
+                    todo.completed).length);
             })
     }
 
