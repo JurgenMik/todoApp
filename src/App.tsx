@@ -23,10 +23,15 @@ function App() {
         activity: '',
         completed: false,
     });
+    const [showClear, setShowClear] = useState<boolean>(false);
 
     useEffect(() => {
         handleGET();
     }, [])
+
+    useEffect( () => {
+        handleShowClear()
+    }, [toDoList])
 
     const handleGET = () => {
         axios.get("http://localhost:3002")
@@ -54,6 +59,15 @@ function App() {
         setCount(itemCount + 1);
         const input = document.getElementById('describeTodo') as HTMLInputElement;
         input.value = '';
+    }
+
+    const handleShowClear = () => {
+        const completed = toDoList.filter((todo : any) => todo.completed).length;
+        if (completed !== 0) {
+            setShowClear(true);
+        } else {
+            setShowClear(false);
+        }
     }
 
     const handleClear = (e : React.FormEvent<HTMLFormElement>) => {
@@ -157,9 +171,12 @@ function App() {
                                 </h1>
                             </div>
                             <form onSubmit={handleClear}>
-                                <button type='submit' className="hover:text-blue-500">
-                                    Clear Completed
-                                </button>
+                                {showClear ?
+                                    <button type='submit' className="hover:text-blue-500">
+                                        Clear Completed
+                                    </button>
+                                    : null
+                                }
                             </form>
                         </div>
                     }
