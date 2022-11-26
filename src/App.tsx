@@ -30,7 +30,7 @@ function App() {
     }, [])
 
     useEffect( () => {
-        handleShowClear()
+        handleShowClear();
     }, [toDoList])
 
     const handleGET = () => {
@@ -39,6 +39,8 @@ function App() {
                 setList(response.data.todos);
                 setCount(response.data.todos.length - response.data.todos.filter((todo : any) =>
                     todo.completed).length);
+            }).catch(error => {
+                console.log(error);
             })
     }
 
@@ -54,8 +56,10 @@ function App() {
                     completed: toDo.completed
                  }
             ).then(response => {
-            setList(toDoList.concat(response.data.todo));
-        })
+                setList(toDoList.concat(response.data.todo));
+        }).catch(error => {
+                console.log(error);
+            })
         setCount(itemCount + 1);
         const input = document.getElementById('describeTodo') as HTMLInputElement;
         input.value = '';

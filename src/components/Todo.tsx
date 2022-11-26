@@ -10,7 +10,9 @@ function Todo({toDoList, setList, setCount, itemCount, filteredList, theme} : an
         {
                 completed: true,
             }).then(response => {
-            setList(toDoList.filter((todo : any) => todo.activity !== details.activity).concat(response.data.todo));
+                setList(toDoList.filter((todo : any) => todo.activity !== details.activity).concat(response.data.todo));
+        }).catch(error => {
+            console.log(error);
         })
         if (!details.completed) {
             setCount(itemCount -1);
@@ -22,6 +24,8 @@ function Todo({toDoList, setList, setCount, itemCount, filteredList, theme} : an
         axios.delete(`http://localhost:3002/todo/${details._id}`)
             .then(response => {
                 setList(toDoList.filter((todo : any) => todo.activity !== response.data.todo.activity));
+            }).catch(error => {
+                console.log(error);
             })
         if (!details.completed) {
             setCount(itemCount -1);
